@@ -1,6 +1,5 @@
 package com.huang.web.controller;
 
-import com.huang.web.result.CodeMsg;
 import com.huang.web.result.Result;
 import com.huang.web.service.SSUserService;
 import com.huang.web.vo.LoginVo;
@@ -52,11 +51,7 @@ public class LoginController {
         //}
 
         //验证成功，登陆
-        CodeMsg codeMsg = ssUserService.login(loginVo);
-        if (codeMsg.getCode() == 0) {
-            return Result.success(true);
-        } else {
-            return Result.error(codeMsg);
-        }
+        ssUserService.login(loginVo);
+        return Result.success(true);
     }
 }
