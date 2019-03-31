@@ -2,7 +2,6 @@ package com.huang.web.controller;
 
 import com.huang.web.domain.User;
 import com.huang.web.redis.RedisService;
-import com.huang.web.redis.UserKey;
 import com.huang.web.result.CodeMsg;
 import com.huang.web.result.Result;
 import com.huang.web.service.UserService;
@@ -42,7 +41,7 @@ public class TestController {
     @RequestMapping("/hello")
     public String hello(Model model) {
         model.addAttribute("name", "tom");
-        return "hello";
+        return "good_list";
     }
 
 
@@ -56,23 +55,23 @@ public class TestController {
         return Result.success(user);
     }
 
-    @RequestMapping("/redis/get")
-    @ResponseBody
-    public Result<User> redisGet() {
-
-        User resultString = redisService.get(UserKey.getById,1 + "", User.class);
-
-        return Result.success(resultString);
-    }
-
-    @RequestMapping("/redis/set")
-        @ResponseBody
-        public Result<Boolean> redisSet() {
-        User user = new User(1,"hzt");
-        boolean set = redisService.set(UserKey.getById, 1 + "", user);
-
-        return Result.success(set);
-        }
+    //@RequestMapping("/redis/get")
+    //@ResponseBody
+    //public Result<User> redisGet() {
+    //
+    //    User resultString = redisService.get(SSUserKey.getById,1 + "", User.class);
+    //
+    //    return Result.success(resultString);
+    //}
+    //
+    //@RequestMapping("/redis/set")
+    //    @ResponseBody
+    //    public Result<Boolean> redisSet() {
+    //    User user = new User(1,"hzt");
+    //    boolean set = redisService.set(SSUserKey.getById, 1 + "", user);
+    //
+    //    return Result.success(set);
+    //}
 
     @RequestMapping("/db/in")
     @ResponseBody

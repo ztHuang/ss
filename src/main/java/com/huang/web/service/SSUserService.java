@@ -3,11 +3,18 @@ package com.huang.web.service;
 import com.huang.web.dao.SSUserDao;
 import com.huang.web.domain.SSUser;
 import com.huang.web.exception.GlobleException;
+import com.huang.web.redis.RedisService;
+import com.huang.web.redis.SSUserKey;
 import com.huang.web.result.CodeMsg;
 import com.huang.web.util.MD5Util;
+import com.huang.web.util.UUIDUtil;
 import com.huang.web.vo.LoginVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Description
@@ -18,15 +25,20 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SSUserService {
+
+    public final static String COOKI_NAME_TOKEN = "token";
+
     @Autowired
     public SSUserDao ssUserDao;
+    @Autowired
+    public RedisService redisService;
 
     public SSUser getById(long id) {
         SSUser ssUser = ssUserDao.getById(id);
         return ssUser;
     }
 
-    public boolean login(LoginVo loginVo) {
+    public boolean login(HttpServletResponse response, LoginVo loginVo) {
         if (loginVo == null) {
             throw new GlobleException(CodeMsg.SERVER_ERROR);
         }
@@ -45,6 +57,32 @@ public class SSUserService {
         if (!dbPass.equals(pass)) {
             throw new GlobleException(CodeMsg.PASSWORD_ERROR);
         }
+
+        // 生成cookie
+        addCookie(response, isUser);
+
+
         return true;
+    }
+
+    private void addCookie(HttpServletResponse response, SSUser isUser) {
+        String token = UUIDUtil.uuid();
+        redisService.set(SSUserKey.token, token, isUser);
+        Cookie cookie = new Cookie(COOKI_NAME_TOKEN, token);
+        cookie.setMaxAge(SSUserKey.token.expireSeconds());
+        cookie.setPath("/");
+        response.addCookie(cookie);
+    }
+
+    public SSUser getByToken(HttpServletResponse response, String token) {
+        if (StringUtils.isEmpty(token)) {
+            return null;
+        }
+        SSUser user = redisService.get(SSUserKey.token, token, SSUser.class);
+        if (user != null) {
+            //用户访问，生成新的cookie
+            addCookie(response, user);
+        }
+        return user;
     }
 }
