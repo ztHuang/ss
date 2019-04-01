@@ -59,14 +59,13 @@ public class SSUserService {
         }
 
         // 生成cookie
-        addCookie(response, isUser);
-
+        String token = UUIDUtil.uuid();
+        addCookie(response, token, isUser);
 
         return true;
     }
 
-    private void addCookie(HttpServletResponse response, SSUser isUser) {
-        String token = UUIDUtil.uuid();
+    private void addCookie(HttpServletResponse response, String token, SSUser isUser) {
         redisService.set(SSUserKey.token, token, isUser);
         Cookie cookie = new Cookie(COOKI_NAME_TOKEN, token);
         cookie.setMaxAge(SSUserKey.token.expireSeconds());
@@ -81,7 +80,7 @@ public class SSUserService {
         SSUser user = redisService.get(SSUserKey.token, token, SSUser.class);
         if (user != null) {
             //用户访问，生成新的cookie
-            addCookie(response, user);
+            addCookie(response,token, user);
         }
         return user;
     }
