@@ -10,3 +10,5 @@
 ### 备忘
 服务端把一个token写到cookie中，客户端在访问中携带cookie，服务端就可以根据cookie中的token找到对应的用户信息
 每次访问都会改变cookie的生命周期
+
+在一个Service中，通常只引入自己的Dao，如果需要引入其它的，也是引入其它的Service不推荐引入Dao

@@ -1,9 +1,11 @@
 package com.huang.web.dao;
 
+import com.huang.web.domain.SSGoods;
 import com.huang.web.vo.GoodsVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -25,4 +27,7 @@ public interface GoodsDao {
 
     @Select("select g.*,sg.stock_count,sg.start_date,sg.end_date,sg.ss_price from ss_goods sg left join goods g on sg.id = g.id where g.id = #{goodsId}")
     GoodsVo getGoodsVoByGoodsId(@Param("goodsId") long goodsId);
+
+    @Update("update ss_goods set stock_count = stock_count - 1 where goods_id = #{goodsId}")
+    void reduceStock(SSGoods ssGood);
 }

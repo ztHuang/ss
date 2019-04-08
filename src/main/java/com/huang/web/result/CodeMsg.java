@@ -28,11 +28,12 @@ public class CodeMsg {
     public static CodeMsg MOBILE_NOT_EXIST = new CodeMsg(500214, "手机号不存在");
     public static CodeMsg PASSWORD_ERROR = new CodeMsg(500215, "密码错误");
     ////商品模块异常
-    //public static CodeMsg SERVER_ERROR = new CodeMsg(500100, "服务端异常");
+    //public static CodeMsg _ERROR = new CodeMsg(500300, "异常");
     ////订单模块异常
-    //public static CodeMsg SERVER_ERROR = new CodeMsg(500100, "服务端异常");
-    ////秒杀模块异常
-    //public static CodeMsg SERVER_ERROR = new CodeMsg(500100, "服务端异常");
+    //public static CodeMsg _ERROR = new CodeMsg(500400, "异常");
+    //秒杀模块异常
+    public static CodeMsg MIAO_SHA_OVER = new CodeMsg(500500, "库存不足，秒杀已结束");
+    public static CodeMsg REPEATE_MIAOSHA = new CodeMsg(500501, "不能重复秒杀");
 
     private CodeMsg(int code, String msg) {
         this.code = code;

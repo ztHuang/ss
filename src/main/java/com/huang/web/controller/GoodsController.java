@@ -8,8 +8,8 @@ import com.huang.web.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.Instant;
@@ -36,7 +36,7 @@ public class GoodsController {
      * @param model
      * @return
      */
-    @PostMapping("/to_list")
+    @GetMapping("/to_list")
     public String list(Model model, SSUser ssUser){
         model.addAttribute("user", ssUser);
         //查询商品列表，跳转到页面
@@ -52,13 +52,14 @@ public class GoodsController {
      * @param goodsId
      * @return
      */
-    @PostMapping("/to_detail/{goodsId}")
+    @GetMapping("/to_detail/{goodsId}")
     public String detail(Model model, SSUser ssUser,@PathVariable("goodsId") long goodsId){
         model.addAttribute("user", ssUser);
 
         GoodsVo goods = goodsService.getGoodsVoByGoodsId(goodsId);
         model.addAttribute("goods", goods);
 
+        //System.out.println(goods);
 
         //活动时间（毫秒）
         long startDate = goods.getStartDate().getTime();
@@ -69,7 +70,7 @@ public class GoodsController {
         int remainSeconds = 0;  //剩余时间（秒）
         if (nowDate < startDate) { //倒计时
             s_static = 0;
-            remainSeconds = ToolUtil.longSubtractLong2Int(startDate, nowDate) / 1000;
+            remainSeconds = ToolUtil.longSubtractLong2Int(startDate, nowDate) / 1000000;
         } else if (nowDate > endDate) { //活动结束
             s_static = -1;
             remainSeconds = -1;
