@@ -38,7 +38,7 @@
         </tr>
         <tr>
             <td>秒杀开始时间</td>
-            <!--<td th:text="${#dates.format(goods.startDate, 'yyyy-MM-dd HH:mm:ss')}"></td>-->
+            <td th:text="${#dates.format(goods.startDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
             <td id="miaoshaTip">
                 <input type="hidden" id="remainSeconds" th:value="${remainSeconds}" />
                 <span th:if="${s_static eq 0}">秒杀倒计时：<span id="countDown" th:text="${remainSeconds}"></span>秒</span>
@@ -81,9 +81,6 @@
                 $("#remainSeconds").val(remainSeconds - 1);
                 countDown();
             },1000);
-
-
-
         }else if (remainSeconds == 0) { //正在秒杀
             $("#buyButton").attr("disabled", false);
             if (timeout) {
