@@ -1,7 +1,7 @@
 package com.huang.web.redis;
 
 /**
- * @Description
+ * @Description 秒杀用户的前缀信息和cookie时间
  * @Author huangzt
  * @Date 2019.03.30
  * @Version 1.0

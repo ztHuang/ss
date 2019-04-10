@@ -12,3 +12,7 @@
 每次访问都会改变cookie的生命周期
 
 在一个Service中，通常只引入自己的Dao，如果需要引入其它的，也是引入其它的Service不推荐引入Dao
+
+
+在开发时为了方便，可以使用springboot自带的tomcat，也就是还是以jar的形式，到了打包上传到服务器时，要改成war，同时加上tomcat的依赖和plugins，以及启动类。
+在项目目录下，使用命令：mvn clean package 即可打jar包，失败可以删除target再试。
