@@ -34,7 +34,16 @@ public class SSUserService {
     public RedisService redisService;
 
     public SSUser getById(long id) {
-        SSUser ssUser = ssUserDao.getById(id);
+        //取缓存
+        SSUser ssUser = redisService.get(SSUserKey.getById, "" + id, SSUser.class);
+        if (ssUser != null) {
+            return ssUser;
+        }
+        //如果缓存存在，直接返回；没有再从数据库查询，并存入缓存中
+        ssUser = ssUserDao.getById(id);
+        if (ssUser != null) {
+            redisService.set(SSUserKey.getById, "" + id, ssUser);
+        }
         return ssUser;
     }
 

@@ -78,6 +78,20 @@ public class RedisService {
     }
 
     /**
+     * 删除
+     * @param prefix
+     * @param key
+     * @return
+     */
+    public boolean delete(KeyPrefix prefix, String key) {
+        try (Jedis redis = jedisPool.getResource()){
+            String realKey = prefix.getPrefix() + key;
+            long ret = redis.del(realKey);
+            return ret > 0;
+        }
+    }
+
+    /**
      * INCR 命令会返回键 key 在执行加一操作之后的值
      * @param prefix
      * @param key

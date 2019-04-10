@@ -15,4 +15,6 @@ public class SSUserKey extends BasePrefix {
     }
 
     public static SSUserKey token = new SSUserKey(TOKEN_EXPIRE, "tk");
+
+    public static SSUserKey getById = new SSUserKey(0, "id"); // id为用户手机号码，一般不变，永久有效
 }

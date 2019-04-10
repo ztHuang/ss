@@ -30,7 +30,12 @@
             <td th:text="${goods.goodsPrice}"></td>
             <td th:text="${goods.ssPrice}"></td>
             <td th:text="${goods.stockCount}"></td>
-            <td><a th:href="'/good/to_detail/'+${goods.id}">详情</a></td>
+            <!--
+                /good/to_detail/'+${goods.id} ： 这个路径是走服务端，然后得到返回的信息
+                改成静态化页面之后，直接跳转到页面，因为定义了前后缀，所以将放于static目录下的html改成htm
+                /goods_detail.htm
+             -->
+            <td><a th:href="'/goods_detail.htm?goodsId='+${goods.id}">详情</a></td>
         </tr>
     </table>
 </div>
