@@ -15,4 +15,5 @@ public class GoodKey extends BasePrefix {
     }
 
     public static GoodKey getGoodList = new GoodKey(GL_EXPIRE,"gl");
+    public static GoodKey getGoodDetail = new GoodKey(GL_EXPIRE,"gd");
 }

@@ -63,6 +63,7 @@ public class GoodsController {
         List<GoodsVo> goodsVos = goodsService.listGoodsVo();
         model.addAttribute("goodsList", goodsVos);
 
+        //取缓存
         String html = redisService.get(GoodKey.getGoodList, "", String.class);
         if (!StringUtils.isEmpty(html)) {
             //缓存存在页面信息，直接返回
@@ -81,20 +82,26 @@ public class GoodsController {
     }
 
     /**
-     * 商品详情
+     * 商品详情 跟上面列表不一样，详情页面是变化的，所有redis的set与get要加上key，叫url缓存
      * @param model
      * @param ssUser
      * @param goodsId
      * @return
      */
-    @GetMapping("/to_detail/{goodsId}")
-    public String detail(Model model, SSUser ssUser,@PathVariable("goodsId") long goodsId){
+    @GetMapping(value = "/to_detail/{goodsId}", produces = "text/html")
+    @ResponseBody
+    public String detail(Model model, SSUser ssUser,@PathVariable("goodsId") long goodsId, HttpServletRequest request, HttpServletResponse response){
         model.addAttribute("user", ssUser);
+
+        //取缓存
+        String html = redisService.get(GoodKey.getGoodDetail, "" + goodsId, String.class);
+        if (!StringUtils.isEmpty(html)) {
+            //缓存存在页面信息，直接返回
+            return html;
+        }
 
         GoodsVo goods = goodsService.getGoodsVoByGoodsId(goodsId);
         model.addAttribute("goods", goods);
-
-        //System.out.println(goods);
 
         //活动时间（毫秒）
         long startDate = goods.getStartDate().getTime();
@@ -116,7 +123,16 @@ public class GoodsController {
         model.addAttribute("s_static", s_static);
         model.addAttribute("remainSeconds", remainSeconds);
 
-        return "good_detail";
+        //不存在缓存，手动渲染
+        WebContext webContext = new WebContext(request, response, request.getServletContext(), request.getLocale(), model.asMap());
+        html = thymeleafViewResolver.getTemplateEngine().process("good_detail", webContext);
+
+        //缓存
+        if (!StringUtils.isEmpty(html)) {
+            redisService.set(GoodKey.getGoodDetail, "" + goodsId, html);
+        }
+
+        return html;
     }
 
 }
