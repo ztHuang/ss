@@ -30,7 +30,7 @@ public class CodeMsg {
     ////商品模块异常
     //public static CodeMsg _ERROR = new CodeMsg(500300, "异常");
     ////订单模块异常
-    //public static CodeMsg _ERROR = new CodeMsg(500400, "异常");
+    public static CodeMsg ORDER_NOT_EXIST = new CodeMsg(500400, "订单不存在");
     //秒杀模块异常
     public static CodeMsg MIAO_SHA_OVER = new CodeMsg(500500, "库存不足，秒杀已结束");
     public static CodeMsg REPEATE_MIAOSHA = new CodeMsg(500501, "不能重复秒杀");

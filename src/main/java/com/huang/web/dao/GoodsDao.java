@@ -28,6 +28,10 @@ public interface GoodsDao {
     @Select("select g.*,sg.stock_count,sg.start_date,sg.end_date,sg.ss_price from ss_goods sg left join goods g on sg.id = g.id where g.id = #{goodsId}")
     GoodsVo getGoodsVoByGoodsId(@Param("goodsId") long goodsId);
 
-    @Update("update ss_goods set stock_count = stock_count - 1 where goods_id = #{goodsId}")
+    /**
+     * sql语句加入库存判断，（stock_count > 0），避免库存出现负数
+     * @param ssGood
+     */
+    @Update("update ss_goods set stock_count = stock_count - 1 where goods_id = #{goodsId} and stock_count > 0")
     void reduceStock(SSGoods ssGood);
 }

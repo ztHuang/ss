@@ -43,7 +43,7 @@ public class LoginController {
     @PostMapping("/do_login")
     @ResponseBody
     public Result<Boolean> doLogin(HttpServletResponse response, @Valid LoginVo loginVo) {
-        log.info(loginVo.toString());
+        //log.info(loginVo.toString());
 
         //验证成功，登陆
         ssUserService.login(response, loginVo);

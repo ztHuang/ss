@@ -159,14 +159,17 @@ public class GoodsController {
         long nowDate = Instant.now().toEpochMilli();
         //活动状态
         int s_static = 0;
-        int remainSeconds = 0;  //剩余时间（秒）
+        //剩余时间（秒）
+        int remainSeconds = 0;
         if (nowDate < startDate) { //倒计时
             s_static = 0;
-            remainSeconds = ToolUtil.longSubtractLong2Int(startDate, nowDate) / 1000000;
-        } else if (nowDate > endDate) { //活动结束
+            remainSeconds = ToolUtil.longSubtractLong2Int(startDate, nowDate) / 1000;
+        } else if (nowDate > endDate) {
+            //活动结束
             s_static = -1;
             remainSeconds = -1;
-        } else { //秒杀进行中...
+        } else {
+            //秒杀进行中...
             s_static = 1;
             remainSeconds = 0;
         }

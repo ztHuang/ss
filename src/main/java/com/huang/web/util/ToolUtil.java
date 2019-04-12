@@ -27,4 +27,11 @@ public class ToolUtil {
     public static final int longSubtractLong2Int(long l1, long l2) {
         return new Long(Math.subtractExact(l1, l2)).intValue();
     }
+
+    public static void main(String[] args) {
+        long l1 = 1555079280000L;
+        long l2 = 1556614860000L;
+        int i = longSubtractLong2Int(l2, l1) / 1000000;
+        System.out.println(i);
+    }
 }
