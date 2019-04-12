@@ -75,7 +75,7 @@ function doMiaosha(){
 		url:"/miaosha/do_miaosha",
 		type:"POST",
 		data:{
-			goodsId:$("#goodsId").val(),
+			goodsId:$("#goodsId").val()
 		},
 		success:function(data){
 			if(data.code == 0){
@@ -93,7 +93,7 @@ function doMiaosha(){
 
 function render(detail){
 	var miaoshaStatus = detail.s_static;
-	var  remainSeconds = detail.remainSeconds;
+	var remainSeconds = detail.remainSeconds;
 	var goods = detail.goodsVo;
 	var user = detail.user;
 	if(user){
@@ -118,7 +118,7 @@ $(function(){
 function getDetail(){
 	var goodsId = g_getQueryString("goodsId");
 	$.ajax({
-		url:"/goods/detail/"+goodsId,
+		url:"/good/to_detail_static/"+goodsId,
 		type:"GET",
 		success:function(data){
 			if(data.code == 0){

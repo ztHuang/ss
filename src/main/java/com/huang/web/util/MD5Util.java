@@ -35,7 +35,7 @@ public class MD5Util {
      * @return
      */
     public static String formPassToDbPass(String fromPass, String salt) {
-        String password = SALT.charAt(0) + SALT.charAt(5) + fromPass + SALT.charAt(10);
+        String password = salt.charAt(0) + salt.charAt(5) + fromPass + salt.charAt(10);
         return DigestUtils.md5Hex(password);
     }
 
@@ -51,6 +51,6 @@ public class MD5Util {
 
     public static void main(String[] args) {
         System.out.println(inputPassFormPass("15915686069")); //902a990e60c73f815b90bb7d8cabb8cd
-        System.out.println(inputPassToDbPass("15915686069","12138_huangzt")); //
+        System.out.println(inputPassToDbPass("15915686069","12138_huangzt")); //3cbcf2e3351ad664e65d799d816a7bc9
     }
 }

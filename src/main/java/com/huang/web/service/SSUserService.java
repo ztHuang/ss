@@ -51,6 +51,7 @@ public class SSUserService {
         if (loginVo == null) {
             throw new GlobleException(CodeMsg.SERVER_ERROR);
         }
+        //页面传来的已经加密过一次的密码
         String password = loginVo.getPassword();
         String mobile = loginVo.getMobile();
         //判断数据库中是否存在
@@ -58,8 +59,12 @@ public class SSUserService {
         if (isUser == null) {
             throw new GlobleException(CodeMsg.MOBILE_NOT_EXIST);
         }
+
         //验证密码
+
+        //数据库保存的密码，加密两次的
         String dbPass = isUser.getPassword();
+        //第二次加密的盐
         String saltDB = isUser.getSalt();
 
         String pass = MD5Util.formPassToDbPass(password, saltDB);
