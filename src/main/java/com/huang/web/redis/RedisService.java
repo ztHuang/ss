@@ -1,6 +1,6 @@
 package com.huang.web.redis;
 
-import com.alibaba.fastjson.JSON;
+import com.huang.web.util.ToolUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -33,7 +33,7 @@ public class RedisService {
         try (Jedis redis = jedisPool.getResource()){
             String realKey = prefix.getPrefix() + key;
             String str = redis.get(realKey);
-            T t = string2Bean(str,clazz);
+            T t = ToolUtil.string2Bean(str,clazz);
             return t;
         }
     }
@@ -47,7 +47,7 @@ public class RedisService {
      */
     public <T> boolean set(KeyPrefix prefix, String key, T value) {
         try (Jedis redis = jedisPool.getResource()){
-            String s = bean2String(value);
+            String s = ToolUtil.bean2String(value);
             if (StringUtils.isEmpty(s)) {
                 return false;
             }
@@ -119,37 +119,6 @@ public class RedisService {
         }
     }
 
-    private <T> String bean2String(T value) {
-        //TODO 这里可能需要补充判断类型
-        Class<?> valueClass = value.getClass();
-        if (StringUtils.isEmpty(value)) {
-            return null;
-        }
-        if (valueClass == int.class || valueClass == Integer.class) {
-            return value + "";
-        } else if (valueClass == String.class) {
-            return (String) value;
-        } else if (valueClass == long.class || valueClass == Long.class) {
-            return value + "";
-        } else {
-            return JSON.toJSONString(value);
-        }
-    }
 
-    private <T> T string2Bean(String str, Class<T> clazz) {
-        //TODO 这里可能需要补充判断类型
-        if (StringUtils.isEmpty(str) || clazz == null) {
-            return null;
-        }
-        if (clazz == int.class || clazz == Integer.class) {
-            return (T) Integer.valueOf(str);
-        } else if (clazz == String.class) {
-            return (T) str;
-        } else if (clazz == long.class || clazz == Long.class) {
-            return (T) Long.valueOf(str);
-        } else {
-            return JSON.toJavaObject(JSON.parseObject(str),clazz);
-        }
-    }
 
 }

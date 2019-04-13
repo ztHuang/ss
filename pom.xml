@@ -122,6 +122,12 @@
             <scope>provided</scope>
         </dependency>-->
 
+        <!-- MQ协议-中间件 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
     </dependencies>
 
 
